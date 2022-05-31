@@ -111,7 +111,7 @@ export default {
     },
     batchDelete() {
       let nodes = this.$refs.tree.getCheckedNodes();
-      this.$confirm(`是否删除 ${this.getTips(nodes,40)} 菜单`, "警告", {
+      this.$confirm(`是否删除 ${this.getTips(nodes, 40)} 菜单`, "警告", {
         confirmButtonText: "删除",
         cancelButtonText: "取消",
         type: "warning",
@@ -125,7 +125,7 @@ export default {
               false
             ),
           }).then(({ data }) => {
-            if (data.code == 0) {
+            if (data && data.code == 0) {
               this.$message({
                 type: "success",
                 message: "菜单删除成功",
@@ -165,7 +165,7 @@ export default {
         method: "post",
         data: JSON.stringify(this.updateNodes),
       }).then(({ data }) => {
-        if (data.code == 0) {
+        if (data && data.code == 0) {
           this.$message({
             type: "success",
             message: "菜单更新成功",
@@ -221,7 +221,7 @@ export default {
           false
         ),
       }).then(({ data }) => {
-        if (data.code == 0) {
+        if (data && data.code == 0) {
           this.$message({
             type: "success",
             message: "菜单修改成功!",
@@ -253,7 +253,7 @@ export default {
           false
         ),
       }).then(({ data }) => {
-        if (data.code == 0) {
+        if (data && data.code == 0) {
           this.$message({
             type: "success",
             message: "菜单添加成功!",
@@ -288,7 +288,7 @@ export default {
         method: "get",
         // params: this.$http.adornParams({}),
       }).then(({ data }) => {
-        if (data.code == 0) {
+        if (data && data.code == 0) {
           data = data.data;
           this.category.parentCid = data.parentCid;
           this.category.name = data.name;
@@ -312,7 +312,7 @@ export default {
             method: "post",
             data: this.$http.adornData(ids, false),
           }).then(({ data }) => {
-            if (data.code == 0) {
+            if (data && data.code == 0) {
               this.$message({
                 type: "success",
                 message: "删除成功!",

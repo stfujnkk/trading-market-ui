@@ -20,6 +20,7 @@ import {
   MenuItem,
   MenuItemGroup,
   Input,
+  Image,
   InputNumber,
   Radio,
   RadioGroup,

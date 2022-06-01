@@ -15,7 +15,7 @@
         <el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
       </el-form-item>
       <el-form-item label="品牌logo地址" prop="logo">
-        <el-input v-model="dataForm.logo" placeholder="品牌logo地址"></el-input>
+        <single-upload v-model="dataForm.logo"></single-upload>
       </el-form-item>
       <el-form-item label="介绍" prop="descript">
         <el-input v-model="dataForm.descript" placeholder="介绍"></el-input>
@@ -23,6 +23,8 @@
       <el-form-item label="显示状态" prop="showStatus">
         <el-switch
           v-model="dataForm.showStatus"
+          :active-value="1"
+          :inactive-value="0"
           active-color="#13ce66"
           inactive-color="#ff4949"
         ></el-switch>
@@ -46,7 +48,11 @@
 
 <script>
 /* eslint-disable */
+import SingleUpload from "@/components/upload/singleUpload";
 export default {
+  components: {
+    SingleUpload,
+  },
   data() {
     return {
       visible: false,
@@ -75,9 +81,31 @@ export default {
           },
         ],
         firstLetter: [
-          { required: true, message: "检索首字母不能为空", trigger: "blur" },
+          {
+            validator: (rule, value, callback) => {
+              if (!value || value == "") {
+                callback(new Error("首字母必须填写"));
+              } else if (!/^[a-zA-Z]$/.test(value)) {
+                callback(new Error("必须为一个英文字母"));
+              }
+              callback();
+            },
+            trigger: "blur",
+          },
         ],
-        sort: [{ required: true, message: "排序不能为空", trigger: "blur" }],
+        sort: [
+          {
+            validator: (rule, value, callback) => {
+              if (value == "") {
+                callback(new Error("排序必须填写"));
+              } else if (!/^[1-9][0-9]*$/.test(value)) {
+                callback(new Error("必须为正整数"));
+              }
+              callback();
+            },
+            trigger: "blur",
+          },
+        ],
       },
     };
   },

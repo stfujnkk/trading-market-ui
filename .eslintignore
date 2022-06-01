@@ -2,5 +2,7 @@
 /config/
 /dist/
 /*.js
+*.vue
+*.js
 /test/unit/coverage/
 /src/icons/iconfont.js

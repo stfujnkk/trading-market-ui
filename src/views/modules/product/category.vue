@@ -271,7 +271,7 @@ export default {
         method: "get",
       }).then(({ data }) => {
         // console.log(data);
-        this.menus = data.page;
+        this.menus = data.data;
       });
     },
     append(data) {

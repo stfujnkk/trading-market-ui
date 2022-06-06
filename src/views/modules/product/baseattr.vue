@@ -134,7 +134,7 @@ export default {
   },
   data() {
     return {
-      catId: 0,
+      catId: '',
       type: 1,
       dataForm: {
         key: ""
@@ -160,7 +160,7 @@ export default {
       }
     },
     getAllDataList(){
-      this.catId = 0;
+      this.catId = '';
       this.getDataList();
     },
     // 获取数据列表

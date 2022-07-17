@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import PubSub from "pubsub-js";
 import CategoryCascader from "../common/category-cascader";
 import BrandSelect from "../common/brand-select";
 export default {
@@ -192,6 +193,6 @@ export default {
   beforeDestroy() {
     PubSub.unsubscribe(this.catPathSub);
     PubSub.unsubscribe(this.brandIdSub);
-  } //生命周期 - 销毁之前
+  } //生命周期 - 销毁之前
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
   <el-dialog
-    :title="!dataForm.id ? '新增' : '修改'"
+    :title="!dataForm.attrId ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"
     @closed="dialogClose"
   >
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" label-width="120px">
-      <!--       @keyup.enter.native="dataFormSubmit()" -->
+      <!-- @keyup.enter.native="dataFormSubmit()" -->
       <el-form-item label="属性名" prop="attrName">
         <el-input v-model="dataForm.attrName" placeholder="属性名"></el-input>
       </el-form-item>

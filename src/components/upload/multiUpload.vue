@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-      action="http://gulimall.oss-cn-shanghai.aliyuncs.com"
+      :action="dataObj.host"
       :data="dataObj"
       list-type="picture-card"
       :file-list="fileList"
@@ -15,15 +15,16 @@
       <i class="el-icon-plus"></i>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="dialogImageUrl" alt />
+      <img width="100%" :src="dialogImageUrl" alt/>
     </el-dialog>
   </div>
 </template>
 <script>
-import { policy } from "./policy";
-import { getUUID } from "@/utils";
+import {policy} from './policy'
+import {getUUID} from '@/utils'
+
 export default {
-  name: "multiUpload",
+  name: 'multiUpload',
   props: {
     //图片属性数组
     value: Array,
@@ -33,88 +34,88 @@ export default {
       default: 30,
     },
   },
-  data() {
+  data () {
     return {
       dataObj: {
-        policy: "",
-        signature: "",
-        key: "",
-        ossaccessKeyId: "",
-        dir: "",
-        host: "",
-        uuid: "",
+        policy: '',
+        signature: '',
+        key: '',
+        ossaccessKeyId: '',
+        dir: '',
+        host: '',
+        uuid: '',
       },
       dialogVisible: false,
       dialogImageUrl: null,
-    };
+    }
   },
   computed: {
-    fileList() {
-      let fileList = [];
+    fileList () {
+      let fileList = []
       for (let i = 0; i < this.value.length; i++) {
-        fileList.push({ url: this.value[i] });
+        fileList.push({url: this.value[i]})
       }
 
-      return fileList;
+      return fileList
     },
   },
-  mounted() {},
+  mounted () {
+  },
   methods: {
-    emitInput(fileList) {
-      let value = [];
+    emitInput (fileList) {
+      let value = []
       for (let i = 0; i < fileList.length; i++) {
-        value.push(fileList[i].url);
+        value.push(fileList[i].url)
       }
-      this.$emit("input", value);
+      this.$emit('input', value)
     },
-    handleRemove(file, fileList) {
-      this.emitInput(fileList);
+    handleRemove (file, fileList) {
+      this.emitInput(fileList)
     },
-    handlePreview(file) {
-      this.dialogVisible = true;
-      this.dialogImageUrl = file.url;
+    handlePreview (file) {
+      this.dialogVisible = true
+      this.dialogImageUrl = file.url
     },
-    beforeUpload(file) {
-      let _self = this;
+    beforeUpload (file) {
+      let _self = this
       return new Promise((resolve, reject) => {
         policy()
           .then((response) => {
-            console.log("这是什么${filename}");
-            _self.dataObj.policy = response.data.policy;
-            _self.dataObj.signature = response.data.signature;
-            _self.dataObj.ossaccessKeyId = response.data.accessid;
-            _self.dataObj.key =
-              response.data.dir + "/" + getUUID() + "_${filename}";
-            _self.dataObj.dir = response.data.dir;
-            _self.dataObj.host = response.data.host;
-            resolve(true);
+            _self.dataObj.policy = response.data.policy
+            _self.dataObj.signature = response.data.signature
+            _self.dataObj.ossaccessKeyId = response.data.accessid
+            // ${filename} 会被oss转换为文件名称
+            _self.dataObj.key = response.data.dir + getUUID() + '_${filename}'
+            _self.dataObj.dir = response.data.dir
+            _self.dataObj.host = response.data.host
+            resolve(true)
           })
           .catch((err) => {
-            console.log("出错了...", err);
-            reject(false);
-          });
-      });
+            console.log('出错了...', err)
+            reject(false)
+          })
+      })
     },
-    handleUploadSuccess(res, file) {
+    handleUploadSuccess (res, file) {
       this.fileList.push({
         name: file.name,
         // url: this.dataObj.host + "/" + this.dataObj.dir + "/" + file.name； 替换${filename}为真正的文件名
         url:
           this.dataObj.host +
-          "/" +
-          this.dataObj.key.replace("${filename}", file.name),
-      });
-      this.emitInput(this.fileList);
+          '/' +
+          this.dataObj.key.replace('${filename}', file.name),
+      })
+      this.emitInput(this.fileList)
     },
-    handleExceed(files, fileList) {
+    handleExceed (files, fileList) {
       this.$message({
-        message: "最多只能上传" + this.maxCount + "张图片",
-        type: "warning",
+        message: '最多只能上传' + this.maxCount + '张图片',
+        type: 'warning',
         duration: 1000,
-      });
+      })
     },
   },
-};
+}
 </script>
 <style>
 </style>

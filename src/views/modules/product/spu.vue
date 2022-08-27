@@ -32,8 +32,7 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
+import PubSub from "pubsub-js";
 import CategoryCascader from "../common/category-cascader";
 import BrandSelect from "../common/brand-select";
 import Spuinfo from "./spuinfo";
@@ -65,7 +64,7 @@ export default {
   methods: {
     searchSpuInfo() {
       console.log("搜索条件", this.dataForm);
-      this.PubSub.publish("dataForm",this.dataForm);
+      PubSub.publish("dataForm",this.dataForm);
     }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
